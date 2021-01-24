@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Collab Sketch!</title>
+  </head>
+  <style></style>
+  <body>
+    <div id="controls">
+      <div id="light">
+        <a class="boxclose" id="boxclose" onclick="lightbox_close();"></a>
+          <iframe id="VisaChipCardVideo" title="vimeo-player" src="https://player.vimeo.com/video/67304556" width="640" height="408" frameborder="0" allowfullscreen></iframe>
+            <!--Browser does not support <video> tag -->
+          </video>
+      </div>
+
+      <div id="fade" onClick="lightbox_close();"></div>
+
+      <button id="saveDrawing" href="#" onclick="lightbox_open();">Instructions</button>
+
+    </div>
+    <div id=main>
+      <link rel="stylesheet" href="style.css">
+
+      <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+      <script src="sketch.js"></script>
+
+      <script> 
+      function lightbox_open() {
+          var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+          window.scrollTo(0, 0);
+          document.getElementById('light').style.display = 'block';
+          document.getElementById('fade').style.display = 'block';
+          lightBoxVideo.play();
+        }
+
+        function lightbox_close() {
+          var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+          document.getElementById('light').style.display = 'none';
+          document.getElementById('fade').style.display = 'none';
+          lightBoxVideo.pause();
+        }
+        </script>
+    </div>
+  </body>
+</html>
