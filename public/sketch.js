@@ -1,11 +1,12 @@
 
-
 firebase.initializeApp(config);
 
 // Init the database
 var squaresData = firebase.database().ref("/squares");
 var linesData = firebase.database().ref("/lines");
-var subLinesData = firebase.database().ref("/sublines");
+
+var removeSquares = []
+
 
 var latestSquaresSnapshot;
 
@@ -30,10 +31,14 @@ function init() {
 
 function setup() {
     createCanvas(1000, 1000);
-    strokeWeight(0);
-    fill(162, 103, 105)
 
     // init()
+
+}
+
+// Temp function to draw the books
+function ds(x, y, s) {
+    square(x, y, s)
 }
 
 async function draw() {
@@ -43,12 +48,21 @@ async function draw() {
     const snapshot = await squaresData.once('value');
     const squares = snapshotToArray(snapshot);
 
-    // When a book is removed we clear the canvas (and redraw)
+    // When a book is removed we draw it in the same colour as
+    // background to esase it
     squaresData.on("child_removed", function (square) {
-        clear();
+        strokeWeight(0);
+        fill(236, 226,208)
+
+        // draw
+        ds(square.val().x, square.val().y, square.val().s)
+
     });
 
+
     // Draw the books
+    strokeWeight(0);
+    fill(162, 103, 105);
     for (let i = 0; i < squares.length; i++) {
         square(squares[i].x, squares[i].y, squares[i].s)
     }
@@ -63,16 +77,6 @@ async function draw() {
     strokeCap(SQUARE);
     for (let i = 0; i < lines.length; i++) {
         line(lines[i].x, lines[i].y, lines[i].px, lines[i].py)
-    }
-
-    const snapshot2 = await subLinesData.once('value');
-    const subLines = snapshotToArray(snapshot2);
-
-    strokeWeight(2);
-    stroke(109, 46, 70);
-    strokeCap(SQUARE);
-    for (let i = 0; i < subLines.length; i++) {
-        line(subLines[i].x, subLines[i].y, subLines[i].px, subLines[i].py)
     }
 }
 
@@ -155,6 +159,7 @@ function snapCenter(op) {
 	return cell * grid + gridOffset;
 }
 
+// WIP
 function snapBranch(op) {
 	// subtract offset (to center lines)
 	// divide by grid to get row/column
